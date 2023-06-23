@@ -20,7 +20,7 @@ public class LocalProcessor {
     private Long period = 10000000000000L;
     protected StringBuilder processorVersion;
     private Integer valueOfCheap;
-    Scanner informationScanner;
+    private Scanner informationScanner;
     static List<String> stringArrayList = new LinkedList<>();
     public LocalProcessor() {
     }
@@ -35,58 +35,39 @@ public class LocalProcessor {
     }
 
 
+
+
     @ListIteratorAnnotation
-    public void listIterator(List<String> stringList)
-    {
-        if (stringList.size() != 0){
+    public void listIterator(List<String> stringList) {
+        if (stringList.size() !=0){
             stringArrayList = new LinkedList<>(stringList);
-            for (String element : stringList)
-            {
-                if (element != null){
-                    System.out.println(element.hashCode());
-                }
-            }
-        }
-    }
+            stringArrayList.forEach(System.out::println);
+        }}
 
     @FullNameProcessorGeneratorAnnotation
-    public String fullNameProcessorGenerator(List<String> stringList)
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        if (processorName != null){
-            stringBuilder.append(processorName);
-        }
-        if (stringList.size() != 0){
-            for (String element : stringList)
-            {
-                if (element != null && !element.isEmpty()){
-                    stringBuilder
-                            .append(element)
-                            .append(" ");
-                }
-            }
-        }
-        return String.valueOf(stringBuilder);
-    }
+    public String fullNameProcessorGenerator(List<String> stringList) {
+        StringBuilder sb = new StringBuilder(processorName);
+        if(sb!=null){
+            for (String str : stringList) {
+                sb.append(str);
+            }}
+
+        return sb.toString();}
 
     @ReadFullProcessorNameAnnotation
-    public void readFullProcessorName(File file)
-    {
-        try (Scanner scanner = new Scanner(file))
-        {
-            informationScanner = scanner;
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(processorVersion);
-            while (informationScanner.hasNext())
-            {
-                if (informationScanner.nextLine() != null){
-                    stringBuilder.append(informationScanner.nextLine());
-                }
-            }
-        }
-        catch (FileNotFoundException e)
-        {
+    public void readFullProcessorName(File file) {
+        try{
+            informationScanner = new Scanner(file);
+            while (informationScanner.hasNext()) {
+                if (informationScanner!=null){
+                    processorVersion.append(informationScanner.nextLine());
+                }}}
+        catch(Exception e){
             e.printStackTrace();
         }
+        finally {
+            informationScanner.close();
+        }
+
     }
 }
