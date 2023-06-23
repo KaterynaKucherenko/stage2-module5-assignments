@@ -31,9 +31,7 @@ public class LocalProcessor {
         this.informationScanner = informationScanner;
         LocalProcessor.stringArrayList = stringArrayList;
     }
-
-    public LocalProcessor() {
-    }
+    
 
     @ListIteratorAnnotation
     public void listIterator(LinkedList<String> stringList) {
