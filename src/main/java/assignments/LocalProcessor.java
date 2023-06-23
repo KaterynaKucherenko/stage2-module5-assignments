@@ -2,6 +2,7 @@ package assignments;
 
 import java.io.File;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.lang.StringBuilder;
 
@@ -19,16 +20,16 @@ public class LocalProcessor {
     protected StringBuilder processorVersion;
     private Integer valueOfCheap;
     Scanner informationScanner;
-    static LinkedList<String> stringArrayList = new LinkedList<>();
+    static List<String> stringArrayList = new LinkedList<>();
 
     public LocalProcessor(String processorName, Long period, String processorVersion, Integer valueOfCheap,
-                          Scanner informationScanner, LinkedList<String> stringArrayList) {
+                          Scanner informationScanner, List<String> stringArrayList) {
         this.processorName = new StringBuilder(processorName);
         this.period = period;
         this.processorVersion = new StringBuilder(processorVersion);
         this.valueOfCheap = valueOfCheap;
         this.informationScanner = informationScanner;
-        this.stringArrayList = stringArrayList;
+        LocalProcessor.stringArrayList = stringArrayList;
     }
 
     public LocalProcessor() {
@@ -36,15 +37,18 @@ public class LocalProcessor {
 
     @ListIteratorAnnotation
     public void listIterator(LinkedList<String> stringList) {
+        if (stringList.size() !=0){
         stringArrayList = new LinkedList<>(stringList);
         stringArrayList.forEach(System.out::println);
-    }
+    }}
 
     @FullNameProcessorGeneratorAnnotation
     public String fullNameProcessorGenerator(LinkedList<String> stringList) {
-        StringBuilder sb = new StringBuilder(processorName);
-        for(String str :stringList){
-            sb.append(str);}
+            StringBuilder sb = new StringBuilder(processorName);
+            if(sb!=null){
+            for (String str : stringList) {
+                sb.append(str);
+            }}
 
         return sb.toString();}
 
@@ -54,8 +58,9 @@ public class LocalProcessor {
         try{
             informationScanner = new Scanner(file);
             while (informationScanner.hasNext()) {
+                if (informationScanner!=null){
                 processorVersion.append(informationScanner.nextLine());
-            }}
+            }}}
         catch(Exception e){
             e.printStackTrace();
         }
