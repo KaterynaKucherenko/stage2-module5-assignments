@@ -1,9 +1,9 @@
 package assignments;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
+import java.lang.StringBuilder;
 
 import assignments.annotations.FullNameProcessorGeneratorAnnotation;
 import assignments.annotations.ListIteratorAnnotation;
@@ -14,18 +14,18 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LocalProcessor {
-    private String processorName;
+    private StringBuilder processorName;
     private Long period = 10000000000000L;
-    protected String processorVersion;
+    protected StringBuilder processorVersion;
     private Integer valueOfCheap;
     Scanner informationScanner;
     static LinkedList<String> stringArrayList = new LinkedList<>();
 
     public LocalProcessor(String processorName, Long period, String processorVersion, Integer valueOfCheap,
                           Scanner informationScanner, LinkedList<String> stringArrayList) {
-        this.processorName = processorName;
+        this.processorName = new StringBuilder(processorName);
         this.period = period;
-        this.processorVersion = processorVersion;
+        this.processorVersion = new StringBuilder(processorVersion);
         this.valueOfCheap = valueOfCheap;
         this.informationScanner = informationScanner;
         this.stringArrayList = stringArrayList;
@@ -37,25 +37,31 @@ public class LocalProcessor {
     @ListIteratorAnnotation
     public void listIterator(LinkedList<String> stringList) {
         stringArrayList = new LinkedList<>(stringList);
-        for (int i = 0; i < period; i++) {
-            System.out.println(stringArrayList.get(i).hashCode());
-        }
+        stringArrayList.forEach(System.out::println);
     }
 
     @FullNameProcessorGeneratorAnnotation
     public String fullNameProcessorGenerator(LinkedList<String> stringList) {
-        for (int i = 0; i < stringArrayList.size(); i++) {
-            processorName+=stringList.get(i)+' ';
-        }
-        return processorName;
-    }
+        StringBuilder sb = new StringBuilder(processorName);
+        for(String str :stringList){
+            sb.append(str);}
+
+        return sb.toString();}
+
 
     @ReadFullProcessorNameAnnotation
-    public void readFullProcessorName(File file) throws FileNotFoundException {
+    public void readFullProcessorName(File file) {
+        try{
             informationScanner = new Scanner(file);
             while (informationScanner.hasNext()) {
-                processorVersion+= informationScanner.nextLine();
-            }
+                processorVersion.append(informationScanner.nextLine());
+            }}
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            informationScanner.close();
+        }
 
     }
 }
